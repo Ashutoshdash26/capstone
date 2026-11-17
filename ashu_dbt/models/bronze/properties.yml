@@ -1,0 +1,22 @@
+version: 2
+
+models:
+  - name: bronze_returns
+    config:
+      materialized: view
+  - name: bronze_salses
+    columns:
+      - name: sales_id
+        data_tests:
+          - unique
+          - not_null
+      - name: payment_method
+        data_tests:
+          - accepted_values:
+                arguments:
+                  values: ['Card','Cash','Digital Wallet','Gift Card']
+                config:
+                  severity: warn
+      - name: gross_amount
+        data_tests:
+          - generic_non_negative
